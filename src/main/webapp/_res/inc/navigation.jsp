@@ -83,8 +83,9 @@
 
                 </s:if>
 
-                <li><a href="../admin/setPassword.action">Change Password</a></li>
-
+                <s:if test="%{!@com.keybox.manage.util.LdapUtil@ldapEnabled || #session.authType==\"BASIC\"}">
+                    <li><a href="../admin/setPassword.action">Change Password</a></li>
+                </s:if>
                 <li><a href="../logout.action">Logout</a></li>
             </ul>
         </div>

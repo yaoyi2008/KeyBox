@@ -118,6 +118,27 @@ For example:
 	
 After startup and once the key has been registered it can then be removed from the system. The passphrase and the key paths will be removed from the configuration file.
 
+Enable LDAP
+------
+LDAP can be enabled through the KeyBoxConfig.properties.
+
+For example:
+
+	#enable LDAP integration
+	enableLDAP=true
+	
+	#LDAP URL - ldap://<whatever IP or host>:389
+	ldapURL=ldap://192.168.1.19:389
+	
+	#LDAP BaseDN - ou=example\,dc=keybox\,dc=com
+	ldapBaseDN=ou=example\,dc=keybox\,dc=com
+	
+	#LDAP Security Authentication
+	ldapSecurityAuth=simple
+
+Administrators will be added as they are authenticated and profiles of systems may be assigned by full-privileged users.
+
+
 Auditing
 ------
 Auditing is disabled by default and is only a proof of concept.  Can be enabled in the KeyBoxConfig.properties.
