@@ -91,6 +91,11 @@ public class LoginAction extends ActionSupport implements ServletRequestAware, S
                         return INPUT;
                     }
                 }
+                //check to see if admin has any assigned profiles
+                if(!User.MANAGER.equals(user.getUserType()) && (user.getProfileList()==null || user.getProfileList().size()<=0)){
+                    addActionError("Authentication Failed : There are no profiles assigned to this account");
+                    return INPUT;
+                }
 
                 AuthUtil.setAuthToken(servletRequest.getSession(), authToken);
                 AuthUtil.setUserId(servletRequest.getSession(), user.getId());

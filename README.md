@@ -118,23 +118,27 @@ For example:
 	
 After startup and once the key has been registered it can then be removed from the system. The passphrase and the key paths will be removed from the configuration file.
 
-Enable LDAP
+
+External Authentication
 ------
-LDAP can be enabled through the KeyBoxConfig.properties.
+External Authentication can be enabled through the KeyBoxConfig.properties.
 
 For example:
 
-	#enable LDAP integration
-	enableLDAP=true
-	
-	#LDAP URL - ldap://<whatever IP or host>:389
-	ldapURL=ldap://192.168.1.19:389
-	
-	#LDAP BaseDN - ou=example\,dc=keybox\,dc=com
-	ldapBaseDN=ou=example\,dc=keybox\,dc=com
-	
-	#LDAP Security Authentication
-	ldapSecurityAuth=simple
+	#specify a external authentication module (ex: ldap-ol, ldap-ad).  Edit the jaas.conf to set connection details
+    jaasModule=ldap-ol
+    
+Connection details need to be set in the jaas.conf file
+
+    ldap-ol {
+    	com.sun.security.auth.module.LdapLoginModule SUFFICIENT
+    	userProvider="ldap://hostname:389/ou=example,dc=keybox,dc=com"
+    	userFilter="(&(uid={USERNAME})(objectClass=inetOrgPerson))"
+    	authzIdentity="{uid}"
+    	useSSL=false
+    	debug=false;
+    };
+    
 
 Administrators will be added as they are authenticated and profiles of systems may be assigned by full-privileged users.
 

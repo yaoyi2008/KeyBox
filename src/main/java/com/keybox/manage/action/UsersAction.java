@@ -132,7 +132,7 @@ public class UsersAction extends ActionSupport  implements ServletRequestAware {
                     addActionError(PasswordUtil.PASSWORD_REQ_ERROR_MSG);
             }
         }
-        if(user!=null && user.getId()==null && !Auth.AUTH_LDAP.equals(user.getAuthType()) && (user.getPassword()==null || user.getPassword().trim().equals(""))){
+        if(user!=null && user.getId()==null && !Auth.AUTH_EXTERNAL.equals(user.getAuthType()) && (user.getPassword()==null || user.getPassword().trim().equals(""))){
             addActionError("Password is required");
         }
 

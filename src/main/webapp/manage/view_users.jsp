@@ -60,7 +60,7 @@
         
         //hide show passwords
         function hideShowPassword(val){
-            if(val=='LDAP'){
+            if(val=='EXTERNAL'){
                 $('.password').closest('tr').hide();
             }else {
                 $('.password').closest('tr').show();
@@ -76,7 +76,7 @@
                 </s:if>
                 <s:else>
                 $("#add_dialog").modal();
-                <s:if test="%{@com.keybox.manage.util.LdapUtil@ldapEnabled}">
+                <s:if test="%{@com.keybox.manage.util.ExternalAuthUtil@externalAuthEnabled}">
                     hideShowPassword($('.auth_type:checked').val());
                 </s:if>
                 </s:else>
@@ -111,7 +111,7 @@
                         </th>
                         <th id="<s:property value="@com.keybox.manage.db.UserDB@SORT_BY_USER_TYPE"/>" class="sort">User Type
                         </th>
-                        <s:if test="%{@com.keybox.manage.util.LdapUtil@ldapEnabled}">
+                        <s:if test="%{@com.keybox.manage.util.ExternalAuthUtil@externalAuthEnabled}">
                             <th id="<s:property value="@com.keybox.manage.db.UserDB@SORT_BY_AUTH_TYPE"/>" class="sort">Auth Type
                             </th>
                         </s:if>
@@ -149,8 +149,15 @@
                             Full Access
                          </s:else>
                         </td>
-                        <s:if test="%{@com.keybox.manage.util.LdapUtil@ldapEnabled}">
-                            <td><s:property value="authType"/></td>
+                        <s:if test="%{@com.keybox.manage.util.ExternalAuthUtil@externalAuthEnabled}">
+                            <td>
+                                <s:if test="authType==\"BASIC\"">
+                                    Basic
+                                </s:if>
+                                <s:else>
+                                    External
+                                </s:else>
+                            </td>
                         </s:if>
                         <td><s:property value="lastNm"/></td>
                         <td><s:property value="firstNm"/></td>
@@ -194,8 +201,8 @@
                             <s:form action="saveUser" class="save_user_form_add" autocomplete="off">
                                 <s:textfield name="user.username" label="Username" size="15"/>
                                 <s:select name="user.userType" list="#{'A':'Administrative Only','M':'Full Access'}" label="UserType"/>
-                                <s:if test="%{@com.keybox.manage.util.LdapUtil@ldapEnabled}">
-                                    <s:radio name="user.authType" label="Authentication Type" list="#{'BASIC':'Basic', 'LDAP':'LDAP'}" cssClass="auth_type"/>
+                                <s:if test="%{@com.keybox.manage.util.ExternalAuthUtil@externalAuthEnabled}">
+                                    <s:radio name="user.authType" label="Authentication Type" list="#{'BASIC':'Basic', 'EXTERNAL':'External'}" cssClass="auth_type"/>
                                 </s:if>
                                 <s:textfield name="user.firstNm" label="First Name" size="15"/>
                                 <s:textfield name="user.lastNm" label="Last Name" size="15"/>
@@ -231,17 +238,24 @@
                                     <s:form action="saveUser" id="save_user_form_edit_%{id}" autocomplete="off">
                                         <s:textfield name="user.username" value="%{username}" label="Username" size="15"/>
                                         <s:select name="user.userType" value="%{userType}" list="#{'A':'Administrative Only','M':'Full Access'}" label="UserType"/>
-                                        <s:if test="%{@com.keybox.manage.util.LdapUtil@ldapEnabled}">
+                                        <s:if test="%{@com.keybox.manage.util.ExternalAuthUtil@externalAuthEnabled}">
                                             <s:hidden name="user.authType" value="%{authType}"/>
                                             <tr>
                                                 <td class="tdLabel"><label class="label">Authentication Type</label></td>
-                                                <td><s:property value="authType"/></td>
+                                                <td>
+                                                    <s:if test="authType==\"BASIC\"">
+                                                        Basic
+                                                    </s:if>
+                                                    <s:else>
+                                                        External
+                                                    </s:else>
+                                                </td>
                                             </tr>
                                         </s:if>
                                         <s:textfield name="user.firstNm" value="%{firstNm}" label="First Name" size="15"/>
                                         <s:textfield name="user.lastNm" value="%{lastNm}" label="Last Name" size="15"/>
                                         <s:textfield name="user.email" value="%{email}" label="Email Address" size="25"/>
-                                        <s:if test="%{!@com.keybox.manage.util.LdapUtil@ldapEnabled || #user.authType==\"BASIC\"}">
+                                        <s:if test="%{!@com.keybox.manage.util.ExternalAuthUtil@externalAuthEnabled || #user.authType==\"BASIC\"}">
                                             <s:password name="user.password" value="" label="Password" size="15"/>
                                             <s:password name="user.passwordConfirm" value="" label="Confirm Password" size="15"/>
                                         </s:if>

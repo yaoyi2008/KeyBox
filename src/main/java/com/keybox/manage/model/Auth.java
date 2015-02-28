@@ -25,7 +25,7 @@ public class Auth {
     public static final String MANAGER="M";
     
     public static final String AUTH_BASIC="BASIC";
-    public static final String AUTH_LDAP="LDAP";
+    public static final String AUTH_EXTERNAL="EXTERNAL";
 
     Long id;
     String username;

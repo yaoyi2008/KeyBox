@@ -19,7 +19,7 @@ import com.keybox.manage.model.Auth;
 import com.keybox.manage.model.User;
 import com.keybox.manage.util.DBUtils;
 import com.keybox.manage.util.EncryptionUtil;
-import com.keybox.manage.util.LdapUtil;
+import com.keybox.manage.util.ExternalAuthUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Connection;
@@ -40,7 +40,7 @@ public class AuthDB {
      */
     public static String login(Auth auth) {
         //check ldap first
-        String authToken = LdapUtil.login(auth);
+        String authToken = ExternalAuthUtil.login(auth);
         
         if (StringUtils.isEmpty(authToken)) {
 
